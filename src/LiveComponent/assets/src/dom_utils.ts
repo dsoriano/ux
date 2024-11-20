@@ -161,7 +161,8 @@ export function getModelDirectiveFromElement(element: HTMLElement, throwOnMissin
     }
 
     if (element.getAttribute('name')) {
-        const formElement = element.closest('form');
+        const formId = element.getAttribute('form');
+        const formElement = formId ? document.getElementById(formId) : element.closest('form');
         // require a <form data-model="*"> around elements in order to
         // activate automatic "data binding" via the "name" attribute
         if (formElement && 'model' in formElement.dataset) {

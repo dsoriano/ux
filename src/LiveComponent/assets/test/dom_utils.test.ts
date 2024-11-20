@@ -230,6 +230,19 @@ describe('getModelDirectiveFromInput', () => {
         expect(directive?.action).toBe('user.firstName');
     });
 
+    it('reads name attribute if element lives out of form and use "form" attribute', () => {
+        const container = document.createElement('div');
+        const formElement = htmlToElement('<form data-model="*" id="my-form"></form>');
+        const element = htmlToElement('<input name="user[firstName]" form="my-form">');
+        container.appendChild(element);
+        container.appendChild(formElement);
+        document.body.appendChild(container);
+
+        const directive = getModelDirectiveFromElement(element);
+        expect(directive).not.toBeNull();
+        expect(directive?.action).toBe('user.firstName');
+    });
+
     it('does NOT reads name attribute if form[data-model] is NOT present', () => {
         const formElement = htmlToElement('<form></form>');
         const element = htmlToElement('<input name="user[firstName]">');
