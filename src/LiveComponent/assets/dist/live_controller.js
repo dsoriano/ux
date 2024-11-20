@@ -305,7 +305,8 @@ function getModelDirectiveFromElement(element, throwOnMissing = true) {
         return dataModelDirectives[0];
     }
     if (element.getAttribute('name')) {
-        const formElement = element.closest('form');
+        const formId = element.getAttribute('form');
+        const formElement = formId ? document.getElementById(formId) : element.closest('form');
         if (formElement && 'model' in formElement.dataset) {
             const directives = parseDirectives(formElement.dataset.model || '*');
             const directive = directives[0];
